@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss:SSS}{GMT+8} [%p] [%X{wiseTraceId}] [%t] %enc{%m}{CRLF}%n</pattern>
+            </PatternLayout>
+        </Console>
+        <RollingFile name="RollingFileInfo"
+                     fileName="${sys:LOG_DIR:-${sys:user.home}}/info.log"
+                     filePattern="${sys:LOG_DIR:-${sys:user.home}}/info_%d{yyyyMMddHHmmssSSS}{GMT+8}.zip"
+                     filePermissions="rw-------">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss:SSS}{GMT+8} [%p][%X{wiseTraceId}][%t]%enc{%m}{CRLF}%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy tempCompressedFilePattern="${sys:LOG_DIR:-${sys:user.home}}/info_%d{yyyyMMddHHmmssSSS}{GMT+8}.log.temp">
+                <PosixViewAttribute basePath="${sys:LOG_DIR:-${sys:user.home}}" filePermissions="r--------">
+                    <IfFileName glob="info_*.zip"/>
+                </PosixViewAttribute>
+                <Delete basePath="${sys:LOG_DIR:-${sys:user.home}}" maxDepth="1">
+                    <IfFileName glob="info_*.zip">
+                        <IfAccumulatedFileCount exceeds="3000" />
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <RollingFile name="RollingFileError"
+                     fileName="${sys:LOG_DIR:-${sys:user.home}}/error.log"
+                     filePattern="${sys:LOG_DIR:-${sys:user.home}}/error_%d{yyyyMMddHHmmssSSS}{GMT+8}.zip"
+                     filePermissions="rw-------">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss:SSS}{GMT+8} [%p][%X{wiseTraceId}][%t]%enc{%m}{CRLF}%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy tempCompressedFilePattern="${sys:LOG_DIR:-${sys:user.home}}/error_%d{yyyyMMddHHmmssSSS}{GMT+8}.log.temp">
+                <PosixViewAttribute basePath="${sys:LOG_DIR:-${sys:user.home}}" filePermissions="r--------">
+                    <IfFileName glob="error_*.zip"/>
+                </PosixViewAttribute>
+                <Delete basePath="${sys:LOG_DIR:-${sys:user.home}}" maxDepth="1">
+                    <IfFileName glob="error_*.zip">
+                        <IfAccumulatedFileCount exceeds="3000" />
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <RollingFile name="PrintCallLog"
+                     fileName="${sys:LOG_DIR:-${sys:user.home}}/api.log"
+                     filePattern="${sys:LOG_DIR:-${sys:user.home}}/api_%d{yyyyMMddHHmmssSSS}{GMT+8}.zip"
+                     filePermissions="rw-------">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss:SSS}{GMT+8} [%p][%X{wiseTraceId}][%t]%enc{%m}{CRLF}%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy tempCompressedFilePattern="${sys:LOG_DIR:-${sys:user.home}}/api_%d{yyyyMMddHHmmssSSS}{GMT+8}.log.temp">
+                <PosixViewAttribute basePath="${sys:LOG_DIR:-${sys:user.home}}" filePermissions="r--------">
+                    <IfFileName glob="api_*.zip"/>
+                </PosixViewAttribute>
+                <Delete basePath="${sys:LOG_DIR:-${sys:user.home}}" maxDepth="1">
+                    <IfFileName glob="api_*.zip">
+                        <IfAccumulatedFileCount exceeds="3000" />
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="PrintCallDetailLog"
+                     fileName="${sys:LOG_DIR:-${sys:user.home}}/apiDetail.log"
+                     filePattern="${sys:LOG_DIR:-${sys:user.home}}/apiDetail_%d{yyyyMMddHHmmssSSS}{GMT+8}.zip"
+                     filePermissions="rw-------">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss:SSS}{GMT+8} [%p][%X{wiseTraceId}][%t]%enc{%m}{CRLF}%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy tempCompressedFilePattern="${sys:LOG_DIR:-${sys:user.home}}/apiDetail_%d{yyyyMMddHHmmssSSS}{GMT+8}.log.temp">
+                <PosixViewAttribute basePath="${sys:LOG_DIR:-${sys:user.home}}" filePermissions="r--------">
+                    <IfFileName glob="apiDetail_*.zip"/>
+                </PosixViewAttribute>
+                <Delete basePath="${sys:LOG_DIR:-${sys:user.home}}" maxDepth="1">
+                    <IfFileName glob="apiDetail_*.zip">
+                        <IfAccumulatedFileCount exceeds="3000" />
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.huawei.csb.portal.developerresservice.utils.component.log.PrintCallLog" level="info"
+                additivity="true">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="PrintCallLog"/>
+        </Logger>
+        <Logger name="com.huawei.csb.portal.developerresservice.utils.component.log.PrintCallDetailLog" level="info"
+                additivity="true">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="PrintCallDetailLog"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileInfo"/>
+            <AppenderRef ref="RollingFileError"/>
+        </Root>
+    </Loggers>
+</Configuration>

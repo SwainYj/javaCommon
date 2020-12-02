@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss:SSS}{GMT+8} [%p] [%t] %enc{%m}{CRLF}%n</pattern>
+            </PatternLayout>
+        </Console>
+        <RollingFile name="RollingFileInfo"
+                     fileName="${sys:LOG_DIR:-${sys:user.home}}/info.log"
+                     filePattern="${sys:LOG_DIR:-${sys:user.home}}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}{GMT+8}-%i.log"
+                     filePermissions="rw-------">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss:SSS}{GMT+8} [%p][%t]%enc{%m}{CRLF}%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <PosixViewAttribute basePath="${sys:LOG_DIR:-${sys:user.home}}/$${date:yyyy-MM}"
+                                    filePermissions="r--------">
+                    <IfFileName glob="*.log"/>
+                </PosixViewAttribute>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <RollingFile name="RollingFileError"
+                     fileName="${sys:LOG_DIR:-${sys:user.home}}/error.log"
+                     filePattern="${sys:LOG_DIR:-${sys:user.home}}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}{GMT+8}-%i.log"
+                     filePermissions="rw-------">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss:SSS}{GMT+8} [%p][%t]%enc{%m}{CRLF}%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <PosixViewAttribute basePath="${sys:LOG_DIR:-${sys:user.home}}/$${date:yyyy-MM}"
+                                    filePermissions="r--------">
+                    <IfFileName glob="*.log"/>
+                </PosixViewAttribute>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <RollingFile name="PrintCallLog"
+                     fileName="${sys:LOG_DIR:-${sys:user.home}}/api.log"
+                     filePattern="${sys:LOG_DIR:-${sys:user.home}}/$${date:yyyy-MM}/api-%d{yyyy-MM-dd}{GMT+8}-%i.log"
+                     filePermissions="rw-------">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss:SSS}{GMT+8} [%p][%t]%enc{%m}{CRLF}%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <PosixViewAttribute basePath="${sys:LOG_DIR:-${sys:user.home}}/$${date:yyyy-MM}"
+                                    filePermissions="r--------">
+                    <IfFileName glob="*.log"/>
+                </PosixViewAttribute>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="PrintCallDetailLog"
+                     fileName="${sys:LOG_DIR:-${sys:user.home}}/apiDetail.log"
+                     filePattern="${sys:LOG_DIR:-${sys:user.home}}/$${date:yyyy-MM}/apiDetail-%d{yyyy-MM-dd}{GMT+8}-%i.log"
+                     filePermissions="rw-------">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss:SSS}{GMT+8} [%p][%t]%enc{%m}{CRLF}%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <PosixViewAttribute basePath="${sys:LOG_DIR:-${sys:user.home}}/$${date:yyyy-MM}"
+                                    filePermissions="r--------">
+                    <IfFileName glob="*.log"/>
+                </PosixViewAttribute>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.huawei.csb.portal.developerresservice.utils.component.log.PrintCallLog" level="info"
+                additivity="true">
+            <appender-ref ref="PrintCallLog"/>
+        </Logger>
+        <Logger name="com.huawei.csb.portal.developerresservice.utils.component.log.PrintCallDetailLog" level="info"
+                additivity="true">
+            <appender-ref ref="PrintCallDetailLog"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="RollingFileInfo"/>
+            <AppenderRef ref="RollingFileError"/>
+        </Root>
+    </Loggers>
+</Configuration>
